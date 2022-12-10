@@ -12,80 +12,78 @@ jobs:
   linux:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - name: Set up python
+          uses: actions/setup-python@v2
 
-    - name: Set up python
-        uses: actions/setup-python@v2
+      # clone and patch anki library  
+      - name: Clone patch Anki
+          run: sh ./scripts/clone_patch_anki
+      - name: Install Protoc
+          uses: arduino/setup-protoc@v1
+          with:
+            version: '3.x'
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    # clone and patch anki library  
-    - name: Clone patch Anki
-        run: sh ./scripts/clone_patch_anki
-    - name: Install Protoc
-        uses: arduino/setup-protoc@v1
+      - uses: PyO3/maturin-action@v1
         with:
-          version: '3.x'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-    - uses: actions/checkout@v3
-    - uses: PyO3/maturin-action@v1
-      with:
-        manylinux: auto
-        command: build
-        args: --release --sdist -o dist --find-interpreter
-    - name: Upload wheels
-      uses: actions/upload-artifact@v3
-      with:
-        name: wheels
-        path: dist
+          manylinux: auto
+          command: build
+          args: --release --sdist -o dist --find-interpreter
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: dist
 
   windows:
     runs-on: windows-latest
     steps:
-    # clone and patch anki library  
-    - name: Clone patch Anki
-        run: .\scripts\clone_patch_anki.bat
-    - name: Install Protoc
-        uses: arduino/setup-protoc@v1
-        with:
-          version: '3.x'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+      # clone and patch anki library  
+      - name: Clone patch Anki
+          run: .\scripts\clone_patch_anki.bat
+      - name: Install Protoc
+          uses: arduino/setup-protoc@v1
+          with:
+            version: '3.x'
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: actions/checkout@v3
-    - uses: PyO3/maturin-action@v1
-      with:
-        command: build
-        args: --release -o dist --find-interpreter
-    - name: Upload wheels
-      uses: actions/upload-artifact@v3
-      with:
-        name: wheels
-        path: dist
+      - uses: PyO3/maturin-action@v1
+        with:
+          command: build
+          args: --release -o dist --find-interpreter
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: dist
 
   macos:
     runs-on: macos-latest
     steps:
-    - name: Set up python
-      uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - name: Set up python
+        uses: actions/setup-python@v2
 
-    # clone and patch anki library  
-    - name: Clone patch Anki
-        run: sh ./scripts/clone_patch_anki
-    - name: Install Protoc
-        uses: arduino/setup-protoc@v1
+      # clone and patch anki library  
+      - name: Clone patch Anki
+          run: sh ./scripts/clone_patch_anki
+      - name: Install Protoc
+          uses: arduino/setup-protoc@v1
+          with:
+            version: '3.x'
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: PyO3/maturin-action@v1
         with:
-          version: '3.x'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-    
-    - uses: actions/checkout@v3
-    - uses: PyO3/maturin-action@v1
-      with:
-        command: build
-        args: --release -o dist --universal2 --find-interpreter
-    - name: Upload wheels
-      uses: actions/upload-artifact@v3
-      with:
-        name: wheels
-        path: dist
+          command: build
+          args: --release -o dist --universal2 --find-interpreter
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: dist
 
   release:
     name: Release
