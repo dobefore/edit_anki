@@ -14,9 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up python
-        uses: actions/setup-python@v2
-
       # clone and patch anki library  
       - name: Clone patch Anki
         run: sh ./scripts/clone_patch_anki
@@ -68,8 +65,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up python
-        uses: actions/setup-python@v2
 
       # clone and patch anki library  
       - name: Clone patch Anki
