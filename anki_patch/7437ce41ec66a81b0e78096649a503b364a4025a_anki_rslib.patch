@@ -1,0 +1,105 @@
+From b2cea39d0dc647df29548640e26edc453258f082 Mon Sep 17 00:00:00 2001
+From: dobefore <1432338032@qq.com>
+Date: Wed, 7 Dec 2022 09:18:21 +0800
+Subject: [PATCH] e
+
+---
+ rslib/src/card/mod.rs             | 2 +-
+ rslib/src/collection/mod.rs       | 2 +-
+ rslib/src/notetype/cardgen.rs     | 2 +-
+ rslib/src/storage/deck/mod.rs     | 2 +-
+ rslib/src/storage/note/mod.rs     | 5 ++---
+ rslib/src/storage/notetype/mod.rs | 2 +-
+ 6 files changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/rslib/src/card/mod.rs b/rslib/src/card/mod.rs
+index a38e70575..9985bec16 100644
+--- a/rslib/src/card/mod.rs
++++ b/rslib/src/card/mod.rs
+@@ -61,7 +61,7 @@ pub enum CardQueue {
+ #[derive(Debug, Clone, PartialEq, Eq)]
+ pub struct Card {
+     pub(crate) id: CardId,
+-    pub(crate) note_id: NoteId,
++    pub note_id: NoteId,
+     pub(crate) deck_id: DeckId,
+     pub(crate) template_idx: u16,
+     pub(crate) mtime: TimestampSecs,
+diff --git a/rslib/src/collection/mod.rs b/rslib/src/collection/mod.rs
+index e1222804f..944689d62 100644
+--- a/rslib/src/collection/mod.rs
++++ b/rslib/src/collection/mod.rs
+@@ -123,7 +123,7 @@ pub struct CollectionState {
+ }
+ 
+ pub struct Collection {
+-    pub(crate) storage: SqliteStorage,
++    pub storage: SqliteStorage,
+     #[allow(dead_code)]
+     pub(crate) col_path: PathBuf,
+     pub(crate) media_folder: PathBuf,
+diff --git a/rslib/src/notetype/cardgen.rs b/rslib/src/notetype/cardgen.rs
+index 9a15df913..8d56c0135 100644
+--- a/rslib/src/notetype/cardgen.rs
++++ b/rslib/src/notetype/cardgen.rs
+@@ -17,7 +17,7 @@ use crate::{
+ 
+ /// Info about an existing card required when generating new cards
+ #[derive(Debug, PartialEq, Eq)]
+-pub(crate) struct AlreadyGeneratedCardInfo {
++pub struct AlreadyGeneratedCardInfo {
+     pub id: CardId,
+     pub nid: NoteId,
+     pub ord: u32,
+diff --git a/rslib/src/storage/deck/mod.rs b/rslib/src/storage/deck/mod.rs
+index ccc3d0ca4..1075f42a7 100644
+--- a/rslib/src/storage/deck/mod.rs
++++ b/rslib/src/storage/deck/mod.rs
+@@ -222,7 +222,7 @@ impl SqliteStorage {
+         Ok(())
+     }
+ 
+-    pub(crate) fn all_cards_in_single_deck(&self, did: DeckId) -> Result<Vec<CardId>> {
++    pub fn all_cards_in_single_deck(&self, did: DeckId) -> Result<Vec<CardId>> {
+         self.db
+             .prepare_cached(include_str!("cards_for_deck.sql"))?
+             .query_and_then([did], |r| r.get(0).map_err(Into::into))?
+diff --git a/rslib/src/storage/note/mod.rs b/rslib/src/storage/note/mod.rs
+index 45b000705..4144ae507 100644
+--- a/rslib/src/storage/note/mod.rs
++++ b/rslib/src/storage/note/mod.rs
+@@ -104,7 +104,7 @@ impl super::SqliteStorage {
+     }
+ 
+     /// Add or update the provided note, preserving ID. Used by the syncing code.
+-    pub(crate) fn add_or_update_note(&self, note: &Note) -> Result<()> {
++    pub fn add_or_update_note(&self, note: &Note) -> Result<()> {
+         let mut stmt = self.db.prepare_cached(include_str!("add_or_update.sql"))?;
+         stmt.execute(params![
+             note.id,
+@@ -344,8 +344,7 @@ impl super::SqliteStorage {
+             .collect()
+     }
+ 
+-    #[cfg(test)]
+-    pub(crate) fn get_all_notes(&mut self) -> Vec<Note> {
++    pub fn get_all_notes(&mut self) -> Vec<Note> {
+         self.db
+             .prepare("SELECT * FROM notes")
+             .unwrap()
+diff --git a/rslib/src/storage/notetype/mod.rs b/rslib/src/storage/notetype/mod.rs
+index fa2eca591..1af04204f 100644
+--- a/rslib/src/storage/notetype/mod.rs
++++ b/rslib/src/storage/notetype/mod.rs
+@@ -269,7 +269,7 @@ impl SqliteStorage {
+         Ok(())
+     }
+ 
+-    pub(crate) fn existing_cards_for_notetype(
++    pub fn existing_cards_for_notetype(
+         &self,
+         ntid: NotetypeId,
+     ) -> Result<Vec<AlreadyGeneratedCardInfo>> {
+-- 
+2.28.0.windows.1
+
