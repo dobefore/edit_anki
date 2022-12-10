@@ -7,34 +7,34 @@ on:
       - master
   pull_request:
   workflow_dispatch:
-
+# As disk space is not enough to build for three targets,I disable linux target.
 jobs:
-  linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+#   linux:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
 
-      # clone and patch anki library  
-      - name: Clone patch Anki
-        run: sh ./scripts/clone_patch_anki
+#       # clone and patch anki library  
+#       - name: Clone patch Anki
+#         run: sh ./scripts/clone_patch_anki
 
-      - name: Install Protoc
-        uses: arduino/setup-protoc@v1
-        with:
-          version: '3.x'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Install Protoc
+#         uses: arduino/setup-protoc@v1
+#         with:
+#           version: '3.x'
+#           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: PyO3/maturin-action@v1
-        with:
-          manylinux: auto
-          command: build
-          args: --release --sdist -o dist --find-interpreter
+#       - uses: PyO3/maturin-action@v1
+#         with:
+#           manylinux: auto
+#           command: build
+#           args: --release --sdist -o dist --find-interpreter
 
-      - name: Upload wheels
-        uses: actions/upload-artifact@v3
-        with:
-          name: wheels
-          path: dist
+#       - name: Upload wheels
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: wheels
+#           path: dist
 
   windows:
     runs-on: windows-latest
@@ -91,7 +91,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     if: "startsWith(github.ref, 'refs/tags/')"
-    needs: [ macos, windows, linux ]
+    needs: [ macos, windows]
     steps:
       - uses: actions/download-artifact@v3
         with:
