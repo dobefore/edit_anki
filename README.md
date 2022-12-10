@@ -2,7 +2,7 @@
 [![Github contributors](https://img.shields.io/github/contributors/dobefore/edit_anki?label=github%20contributors)](https://github.com/dobefore/edit_anki/graphs/contributors)
 [](https://img.shields.io/github/last-commit/dobefore/edit_anki)
 [](https://img.shields.io/github/v/release/dobefore/edit_anki)
-[![Python version](https://img.shields.io/pypi/pyversions/edit-anki)](https://github.com/dobefore/edit_anki/blob/develop/pyproject.toml)
+[![Python version](https://img.shields.io/pypi/pyversions/edit-anki)](https://github.com/dobefore/edit_anki/blob/master/pyproject.toml)
 [![PyPI version](https://img.shields.io/pypi/v/edit-anki?label=pypi%20version)](https://pypi.org/project/edit-anki)
 [![PyPI downloads](https://img.shields.io/pypi/dm/edit-anki?label=pypi%20downloads)](https://pypi.org/project/edit-anki)
 
