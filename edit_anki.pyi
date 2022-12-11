@@ -1,4 +1,4 @@
-from typing import Optional,List,Tuple
+from typing import Optional,List
 class Collection:
     def __init__(self,col_path:Optional[str]) :
         '''
@@ -13,15 +13,29 @@ class Collection:
         p=r'C:\Users\Admin\AppData\Roaming\Anki2\Android\collection.anki2'
         c=edit_anki.Collection(p)
         '''
-    def get_all_deck_names(self, skip_empty_default: bool=False)-> List[Tuple[int,str]]:
+    def get_deck_names(self, skip_empty_default: bool=False)-> List[str]:
         '''
-        get all decks ,return their deck id and names
+        get all decks ,return their deck  names
         
         output,for example:
-        [(1666677001723, 'dd'), (1, 'Default'), (1664236622080, '成语小酷')]
+        [ 'dd',  'Default',  '成语小酷']
         '''
 
-    def get_all_note_types(self)-> List[Tuple[int,str]]:
+    def note_type_names(self)-> List[str]:
         '''
-        get all note types , return their id and names    
+        get all note types , return their names    
+        '''
+    def all_notes_from_deck(self)->Optional[List[int,List[str]]]: 
+        '''
+        get all notes from a deck,return their note id and field values
+        '''
+    def add_note(self):
+        '''
+        create a new note from an existing notetype,deck.
+        '''
+    def set_note_field(self, note_id: int,deck_name: str,field_index: int,new_field: str):
+        '''
+        change contents of a field of a note
+
+        we match whichever field we choose and if matched,change contents of whichever field we choose
         '''

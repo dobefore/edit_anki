@@ -36,6 +36,9 @@ impl CollectionW {
         }
         Ok(v)
     }
+    fn note_type_names(&mut self) -> Result<Vec<String>> {
+        Ok(self.col.get_all_note_types()?.iter().map(|(_,name)|name.to_string()).collect::<Vec<_>>())
+    }
     /// get all notes from a deck,return note id and fields of all notes
     pub fn all_notes_from_deck(
         &mut self,
@@ -86,7 +89,7 @@ impl CollectionW {
     /// return existing deck ids and deck names
     #[args(skip_empty_default = false)]
     #[pyo3(text_signature = "(&self, skip_empty_default: bool)")]
-    pub fn get_all_deck_names(&self, skip_empty_default: bool) -> Result<Vec<(i64, String)>> {
+    pub fn get_deck_names(&self, skip_empty_default: bool) -> Result<Vec<(i64, String)>> {
         let d = self.col.get_all_deck_names(skip_empty_default);
         Ok(d?
             .iter()

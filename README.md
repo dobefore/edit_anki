@@ -12,12 +12,10 @@ This project mainly focuses on Modifying Anki existing collections and decks.It 
 ## Features It has
 1. Midify exist notes of cards.
 - add notes
-- remove notes
 - change field contents of a note
-## Quick start
 
 ## How to use
-details see [examples](examples)
+details see [examples](example)
 ## Feature Request
 This project is in its early stage. You are welcome to request new features if it would not
 satisfy your needs. 
